@@ -10,7 +10,7 @@
 
   <body>
     <% if flash[:message] || flash[:alert] %>
-      <%= render partial: "messages" %>
+      <%= render partial: "layouts/messages" %>
     <% end %>
     <%= yield %>
   </body>
