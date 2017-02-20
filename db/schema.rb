@@ -10,26 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170219030347) do
+ActiveRecord::Schema.define(version: 20170220001538) do
 
   create_table "buckets", force: :cascade do |t|
     t.string   "name"
     t.integer  "user_id"
     t.text     "description"
-    t.integer  "tot_time_cost"
-    t.decimal  "tot_price"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "buckets_items", id: false, force: :cascade do |t|
+    t.integer "bucket_id", null: false
+    t.integer "item_id",   null: false
   end
 
   create_table "items", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "bucket_id"
     t.decimal  "price"
-    t.integer  "time_cost_in_days"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.integer  "days_cost"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "users", force: :cascade do |t|

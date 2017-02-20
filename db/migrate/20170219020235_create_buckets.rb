@@ -4,8 +4,6 @@ class CreateBuckets < ActiveRecord::Migration[5.0]
       t.string :name
       t.integer :user_id
       t.text :description
-      t.integer :tot_time_cost
-      t.decimal :tot_price
 
       t.timestamps
     end

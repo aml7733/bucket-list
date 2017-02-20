@@ -3,9 +3,8 @@ class CreateItems < ActiveRecord::Migration[5.0]
     create_table :items do |t|
       t.string :name
       t.text :description
-      t.integer :bucket_id
       t.decimal :price
-      t.integer :time_cost_in_days
+      t.integer :days_cost
 
       t.timestamps
     end
