@@ -34,7 +34,6 @@ class BucketsController < ApplicationController
   end
 
   def update
-    binding.pry
     @bucket.update(bucket_params)
     if @bucket.save
       redirect_to user_bucket_path(current_user, @bucket), message: "Bucket successfully updated."
@@ -51,7 +50,7 @@ class BucketsController < ApplicationController
   private
 
   def bucket_params
-    params.require(:bucket).permit(:name, :description, :user_id, item_ids:[], items_attributes:[:name])
+    params.require(:bucket).permit(:name, :description, :user_id, item_ids:[], items_attributes:[:name, :description, :price, :days_cost, :_destroy])
   end
 
   def find_bucket

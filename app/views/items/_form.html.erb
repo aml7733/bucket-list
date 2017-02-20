@@ -23,7 +23,7 @@
     <%= f.label :days_cost %><br>
     <%= f.text_field :days_cost %><br>
   </div><div class="field">
-    Add Item to Your Buckets:
+    Add or Delete Your Buckets:
     <%= f.collection_check_boxes :bucket_ids, current_user.buckets, :id, :name  %> <br>
   </div>
   <div class="actions">

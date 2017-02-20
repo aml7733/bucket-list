@@ -1,3 +1,5 @@
+require 'pry'
+
 class ItemsController < ApplicationController
   before_action :find_item, only: [:show, :edit, :update, :destroy]
 
@@ -12,7 +14,7 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
-      redirect_to item_path(@item), notice: "Successfully created item."
+      redirect_to item_path(@item), message: "Successfully created item."
     else
       render :new
     end
@@ -27,7 +29,7 @@ class ItemsController < ApplicationController
   def update
     @item.update(item_params)
     if @item.save
-      redirect_to item_path(@item), notice: "Successfully updated item."
+      redirect_to item_path(@item), message: "Successfully updated item."
     else
       render :edit
     end
@@ -41,7 +43,7 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:name, :description, :bucket_id, :price, :time_cost)
+    params.require(:item).permit(:name, :description, :price, :days_cost, bucket_ids:[])
   end
 
   def find_item

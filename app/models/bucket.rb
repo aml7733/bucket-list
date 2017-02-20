@@ -3,7 +3,9 @@ require 'pry'
 class Bucket < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :items
-  accepts_nested_attributes_for :items
+  accepts_nested_attributes_for :items,
+    reject_if: proc { |attributes| attributes["name"].blank? },
+    allow_destroy: true
 
   validates :name, presence: true, uniqueness: true
   validates :user_id, presence: true
@@ -11,13 +13,8 @@ class Bucket < ApplicationRecord
   def items_attributes=(items_attributes)
     items_attributes.values.each do |item_attributes|
       item = Item.find_or_create_by(item_attributes)
-      self.items << item
-      item.save
+      self.items << item unless item.name == ""
     end
-  end
-
-  def most_expensive_item
-    self.items.order(price: :desc).limit(1)
   end
 
   def total_cost
@@ -28,5 +25,9 @@ class Bucket < ApplicationRecord
       days += item.days_cost
     end
     "$#{price_prime} and #{days} days needed to kick this bucket."
+  end
+
+  def self.by_user(user_id)
+    where(user_id: user_id)
   end
 end
