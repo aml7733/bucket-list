@@ -1,11 +1,14 @@
 <h1>Item Page</h1>
-<h3><%= @item.name %></h3>
+<h3>Name: <%= @item.name %></h3>
+<p><%= @item.description %></p>
+
+<h5>Item's Buckets:</h5>
 <ul>
   <% if !@item.buckets.empty? %>
     <% @item.buckets.each do |bucket| %>
-      <li><%= bucket.name %>  |  <%= bucket.user.name %></li>
+      <li><%= bucket.name %>  |  <%= bucket.user.email %></li>
     <% end %>
-  <% else %>
-    <li><%= link_to "Add Bucket", edit_item_path(@item) %></li>
   <% end %>
 </ul>
+<%= link_to "Edit Item", edit_item_path(@item) %>
+<%= link_to "Delete Item", item_path(@item), method: :delete %>

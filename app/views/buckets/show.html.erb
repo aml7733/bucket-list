@@ -11,7 +11,8 @@
 <h5>Description:</h5>
 <p><%= @bucket.description %></p><br>
 <h5>Total Cost:</h5>
-<p>$<%= @bucket.total_price %>, <%= @bucket.tot_time_cost %></p>
+<p><%= @bucket.total_cost %></p>
 
 <%= link_to "Edit This Bucket", edit_bucket_path(@bucket) %><br>
-<%= link_to "Delete This Bucket", bucket_path(@bucket), method: :delete %>
+<%= link_to "Delete This Bucket", bucket_path(@bucket), method: :delete %><br>
+<%= link_to "Your Bucket Index", user_buckets_path(current_user) %>

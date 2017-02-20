@@ -1,11 +1,16 @@
+require 'pry'
+
 class BucketsController < ApplicationController
-  before_action :authentcate_user!, except: [:home]
+  before_action :authenticate_user!, except: [:home]
   before_action :find_bucket, only: [:show, :edit, :update, :destroy]
 
   def home
   end
 
   def index
+    if current_user.buckets.empty?
+      redirect_to :back, alert: "No buckets here.  Please create one."
+    end
     @buckets = current_user.buckets
   end
 
@@ -16,7 +21,7 @@ class BucketsController < ApplicationController
   def create
     @bucket = Bucket.new(bucket_params)
     if @bucket.save
-      redirect_to bucket_path(@bucket), notice: "Bucket successfully created."
+      redirect_to user_bucket_path(current_user, @bucket), message: "Bucket successfully created."
     else
       render :new
     end
@@ -29,9 +34,10 @@ class BucketsController < ApplicationController
   end
 
   def update
+    binding.pry
     @bucket.update(bucket_params)
     if @bucket.save
-      redirect_to user_bucket_path(current_user, @bucket), notice: "Bucket successfully updated."
+      redirect_to user_bucket_path(current_user, @bucket), message: "Bucket successfully updated."
     else
       render :edit
     end
@@ -45,7 +51,7 @@ class BucketsController < ApplicationController
   private
 
   def bucket_params
-    params.require(:bucket).permit(:name, :description, :user_id, item_ids:[], item_attributes: [:name]))
+    params.require(:bucket).permit(:name, :description, :user_id, item_ids:[], items_attributes:[:name])
   end
 
   def find_bucket

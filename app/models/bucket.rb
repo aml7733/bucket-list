@@ -1,16 +1,18 @@
+require 'pry'
+
 class Bucket < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :items
   accepts_nested_attributes_for :items
 
-  validate :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true
   validates :user_id, presence: true
-  validates_associated :items
 
-  def items_attributes=(item_attributes)
-    item_attributes.values.each do |item_attribute|
-      item = Item.find_or_create_by(item_attribute)
+  def items_attributes=(items_attributes)
+    items_attributes.values.each do |item_attributes|
+      item = Item.find_or_create_by(item_attributes)
       self.items << item
+      item.save
     end
   end
 
@@ -23,8 +25,8 @@ class Bucket < ApplicationRecord
     days = 0
     items.each do |item|
       price_prime += item.price
-      days += item.time_cost
+      days += item.days_cost
     end
-    count
+    "$#{price_prime} and #{days} days needed to kick this bucket."
   end
 end

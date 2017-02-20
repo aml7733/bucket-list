@@ -11,17 +11,23 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %><br>
-    <%= f.hidden_field :user_id, value: current_user.id %>
-  </div><div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %><br>
-  </div><div class="field">
-    <%= f.collection_check_boxes :item_ids, Item.all, :id, :name  %> <br>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.label :name %>
+  <%= f.text_field :name %><br>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <%= f.label :description %>
+  <%= f.text_area :description %><br>
+  Add existing items:
+  <%= f.collection_check_boxes :item_ids, Item.all, :id, :name  %> <br>
+  <h4>Or create new items by name:</h4>
+  <%= f.fields_for :items, bucket.items.build do |items_fields| %>
+    <label>Item Name</label>
+    <%= items_fields.text_field :name %><br>
+    <label>Item Description</label>
+    <%= items_fields.text_area :description %><br>
+    <label>Item Price</label>
+    <%= items_fields.text_field :price %><br>
+    <label>Item Days Needed</label>
+    <%= items_fields.text_field :days_cost %>
+  <% end %><br>
+  <%= f.submit %>
 <% end %>
