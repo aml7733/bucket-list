@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :items#, only: [:index, :show, :new, :create, :edit, :update, :destroy]
-
+  resources :items
+  
   resources :buckets, only: [:new, :create, :edit, :update, :destroy]
 
   devise_for :users, controllers: { omniauth_callbacks: "callbacks"}

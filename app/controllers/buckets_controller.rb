@@ -3,13 +3,14 @@ require 'pry'
 class BucketsController < ApplicationController
   before_action :authenticate_user!, except: [:home]
   before_action :find_bucket, only: [:show, :edit, :update, :destroy]
+  before_action :nested_route_auth, only: [:index, :show, :edit, :update, :destroy]
 
   def home
   end
 
   def index
     if current_user.buckets.empty?
-      redirect_to :back, alert: "No buckets here.  Please create one."
+      redirect_to new_user_bucket_path(current_user), alert: "No buckets found.  Please create one."
     end
     @buckets = current_user.buckets
   end
@@ -55,5 +56,11 @@ class BucketsController < ApplicationController
 
   def find_bucket
     @bucket = Bucket.find_by(id: params[:id])
+  end
+
+  def nested_route_auth
+    if params[:user_id] && params[:user_id].to_i != current_user.id
+      redirect_to root_path, alert: "Invalid request."
+    end
   end
 end
